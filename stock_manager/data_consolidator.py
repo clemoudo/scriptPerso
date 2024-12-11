@@ -89,4 +89,3 @@ class DataConsolidator:
         if self.data.empty:
             raise ValueError("Les données consolidées sont vides.")
         return self.data
-
