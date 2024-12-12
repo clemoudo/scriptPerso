@@ -1,6 +1,6 @@
-from data_consolidator import DataConsolidator
-from database_manager import DatabaseManager
-from report_generator import ReportGenerator
+from stock_manager.data_consolidator import DataConsolidator
+from stock_manager.database_manager import DatabaseManager
+from stock_manager.report_generator import ReportGenerator
 import pandas as pd
 
 class StockManager:
