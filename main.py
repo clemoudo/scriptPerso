@@ -1,5 +1,3 @@
-from cgi import parse
-
 from stock_manager import ImportCSV, SearchEngine, ReportGenerator
 import argparse
 
