@@ -79,7 +79,7 @@ if __name__ == '__main__':
                         type=csv_file_validator,
                         help='Import CSV file.')
     parser.add_argument('-s', '--search',
-                        help=f"Search in the inventory. Syntax: ${search_ex}")
+                        help=f"Search in the inventory. Syntax: '{search_ex}'")
     parser.add_argument('-r', '--report',
                         type=csv_file_validator,
                         help='Create a report in the specified file.')
