@@ -9,13 +9,24 @@ class SearchEngine:
         filtered_data = self.data
 
         if name:
-            filtered_data = filtered_data[filtered_data['Nom du Produit'].str.contains(name, case=False, na=False)]
+            filtered_data = filtered_data[
+                filtered_data['Nom du Produit'].str.contains(name,
+                                                             case=False,
+                                                             na=False)
+            ]
 
         if category:
-            filtered_data = filtered_data[filtered_data['Catégorie'].str.contains(category, case=False, na=False)]
+            filtered_data = filtered_data[
+                filtered_data['Catégorie'].str.contains(category,
+                                                        case=False,
+                                                        na=False)
+            ]
 
         if price_range:
             min_price, max_price = price_range
-            filtered_data = filtered_data[(filtered_data['Prix Unitaire'] >= min_price) & (filtered_data['Prix Unitaire'] <= max_price)]
+            filtered_data = filtered_data[
+                (filtered_data['Prix Unitaire'] >= min_price) &
+                (filtered_data['Prix Unitaire'] <= max_price)
+            ]
 
         return filtered_data

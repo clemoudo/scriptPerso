@@ -1,12 +1,15 @@
 import pandas as pd
 
+
 class ReportGenerator:
     def __init__(self, csv_file):
         self.data = pd.read_csv(csv_file)
 
     def save_report(self, output_file):
         # Génération du rapport détaillé par catégorie
-        self.data['Valeur Totale'] = self.data['Quantité'] * self.data['Prix Unitaire']
+        quantity = self.data['Quantité']
+        unit_price = self.data['Prix Unitaire']
+        self.data['Valeur Totale'] = quantity * unit_price
         summary = self.data.groupby('Catégorie').agg(
             Quantité_Totale=('Quantité', 'sum'),
             Valeur_Totale=('Valeur Totale', 'sum')
@@ -22,7 +25,8 @@ class ReportGenerator:
             'Quantité_Totale': total_quantities,
             'Valeur_Totale': total_value
         }
-        summary = pd.concat([summary, pd.DataFrame([total_row])], ignore_index=True)
+        summary = pd.concat([summary, pd.DataFrame([total_row])],
+                            ignore_index=True)
 
         # Sauvegarde du fichier
         summary.to_csv(output_file, index=False)
