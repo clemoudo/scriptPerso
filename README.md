@@ -1,77 +1,103 @@
-maintenant écrit moi le README.md de mon programme
-from stock_manager import ImportCSV, SearchEngine, ReportGenerator
-import argparse
-from pathlib import Path
-import re
+# Stock Manager
 
+## Description
 
-def csv_file_validator(file_path):
-    path = Path(file_path)
+The **Stock Manager** program is a Python-based command-line tool to manage inventory efficiently. It allows you to:
 
-    if not path.exists():
-        raise argparse.ArgumentTypeError(f"The file '{file_path}' does not exist.")
+- Import and merge inventory data from CSV files.
+- Search for specific products by name, category, or price range.
+- Generate inventory reports, including total quantities and values by category.
 
-    if not path.is_file():
-        raise argparse.ArgumentTypeError(f"'{file_path}' is not a valid file.")
+## Features
 
-    if path.suffix.lower() != ".csv":
-        raise argparse.ArgumentTypeError(f"The file '{file_path}' does not have the '.csv' extension.")
+1. **Data Import**: Merge new inventory data into an existing database while ensuring consistency.
+2. **Search**: Perform detailed searches using product name, category, or a price range.
+3. **Report Generation**: Create a summary report showing total quantities and values per category and overall.
 
-    return path
+## Installation
 
+### Prerequisites
 
+- Python 3.7+
+- The `pandas` library (for data manipulation)
 
-def parse_parameters(input_string):
-    parameters = {
-        "name": None,
-        "category": None,
-        "price_range": None
-    }
+### Installation Steps
 
-    # Expressions régulières ajustées pour chaque paramètre
-    name_match = re.search(r'\bname=([^ ]+)', input_string)
-    category_match = re.search(r'\bcategory=([^ ]+)', input_string)
-    price_range_match = re.search(r'price_range=\((\d+),(\d+)\)', input_string)
+1. Clone the repository:
 
-    # Extraire et ajouter les paramètres au dictionnaire
-    if name_match:
-        parameters['name'] = name_match.group(1)
-    if category_match:
-        parameters['category'] = category_match.group(1)
-    if price_range_match:
-        parameters['price_range'] = (int(price_range_match.group(1)), int(price_range_match.group(2)))
+   ```bash
+   git clone <repository_url>
+   cd <repository_folder>
+   ```
 
-    return parameters
+2. Install dependencies:
 
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-def main(my_args):
-    db = my_args.data_base
+## Usage
 
-    if my_args.import_csv:
-        csv_to_merge = my_args.import_csv
-        try:
-            ImportCSV(csv_to_merge, db).merge_data()
-        except ImportError as e:
-            print('Merge error:', e)
+Run the program from the command line using the following options:
 
-    if my_args.search:
-        engine = SearchEngine(db)
-        result = parse_parameters(my_args.search)
-        filtered_data = engine.search(name=result['name'], category=result['category'], price_range=result['price_range'])
-        print(filtered_data)
+### Basic Syntax
 
-    if my_args.report:
-        ReportGenerator(db).save_report(my_args.report)
+```bash
+python main.py [data_base] [options]
+```
 
+### Options
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Stocks manager.')
-    parser.add_argument('data_base', type=csv_file_validator, help='The main csv file that contains your data.')
-    parser.add_argument('-i', '--import_csv', type=csv_file_validator, help='Import CSV file.')
-    parser.add_argument('-s', '--search', help="Do a research in the data base. Use de syntax: 'name=Chaise category=Meubles price_range=(10,50)'")
-    parser.add_argument('-r', '--report', type=csv_file_validator, help='Create a report in the specified file.')
-    args = parser.parse_args()
+- `data_base` (required): Path to the main CSV file containing your inventory data.
+- `-i`, `--import_csv`: Import a new CSV file into the database.
+- `-s`, `--search`: Search the inventory using syntax like:
 
-    main(args)
+  ```
+  name=Chaise category=Meubles price_range=(10,50)
+  ```
 
-il faut expliquer l'installation et l'utilisation 
+  You can use any combination of `name`, `category`, and `price_range`. Only specified filters are applied.
+- `-r`, `--report`: Generate a report and save it to the specified CSV file.
+
+### Examples
+
+#### Import Data
+
+```bash
+python stock_manager.py database.csv -i new_stock.csv
+```
+
+#### Search Inventory
+
+```bash
+python stock_manager.py database.csv -s "name=Table category=Furniture"
+```
+
+#### Generate Report
+
+```bash
+python stock_manager.py database.csv -r inventory_report.csv
+```
+
+## CSV Format Requirements
+
+Your CSV files must adhere to the following structure:
+
+| Nom du Produit  | Quantité | Prix Unitaire | Catégorie   |
+|-----------------|------------|---------------|--------------|
+| Chaise          | 10         | 20.0          | Meubles      |
+| Table           | 5          | 50.0          | Meubles      |
+| ...             | ...        | ...           | ...          |
+
+## Error Handling
+
+The program validates input files rigorously:
+
+- Ensures column names and types match the database.
+- Detects and reports empty cells in the CSV.
+- Raises errors for invalid file paths or extensions.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
