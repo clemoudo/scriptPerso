@@ -1,13 +1,13 @@
 import pandas as pd
 
 
-class ColumnNameError(Exception):
+class ColumnNameError(ImportError):
     pass
 
-class ColumnTypeError(Exception):
+class ColumnTypeError(ImportError):
     pass
 
-class EmptyCellError(Exception):
+class EmptyCellError(ImportError):
     pass
 
 class ImportCSV:

@@ -9,7 +9,7 @@ class SearchEngine:
         filtered_data = self.data
 
         if name:
-            filtered_data = filtered_data[filtered_data['Produit'].str.contains(name, case=False, na=False)]
+            filtered_data = filtered_data[filtered_data['Nom du Produit'].str.contains(name, case=False, na=False)]
 
         if category:
             filtered_data = filtered_data[filtered_data['Catégorie'].str.contains(category, case=False, na=False)]
