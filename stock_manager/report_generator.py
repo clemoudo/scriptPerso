@@ -27,12 +27,3 @@ class ReportGenerator:
         # Sauvegarde du fichier
         summary.to_csv(output_file, index=False)
         print(f"Rapport sauvegardé dans le fichier : {output_file}")
-
-
-# Exemple d'utilisation
-if __name__ == "__main__":
-    # Initialiser la classe avec un fichier CSV
-    report = ReportGenerator("../data/stocks.csv")
-
-    # Sauvegarder le rapport dans un fichier CSV
-    report.save_report("../tests/data/rapport_inventaire.csv")

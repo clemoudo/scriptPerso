@@ -19,10 +19,10 @@ class ImportCSV:
     def _validity_check(self):
         if self.csv_file.columns.tolist() != self.data_base.columns.tolist(): # ['Nom du Produit', 'Quantité', 'Prix Unitaire', 'Catégorie']
             raise ColumnNameError("Column names do not match.")
-        if self.csv_file.dtypes.tolist() != self.data_base.dtypes.tolist():  # [dtype('O'), dtype('int64'), dtype('float64'), dtype('O')]
-            raise ColumnTypeError("Column types do not match.")
         if self.csv_file.isnull().values.any():
             raise EmptyCellError("Empty cells found.")
+        if self.csv_file.dtypes.tolist() != self.data_base.dtypes.tolist():  # [dtype('O'), dtype('int64'), dtype('float64'), dtype('O')]
+            raise ColumnTypeError("Column types do not match.")
 
     def merge_data(self):
         self._validity_check()
